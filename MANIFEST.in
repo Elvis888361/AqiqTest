@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include aquiq *.css
+recursive-include aquiq *.csv
+recursive-include aquiq *.html
+recursive-include aquiq *.ico
+recursive-include aquiq *.js
+recursive-include aquiq *.json
+recursive-include aquiq *.md
+recursive-include aquiq *.png
+recursive-include aquiq *.py
+recursive-include aquiq *.svg
+recursive-include aquiq *.txt
+recursive-exclude aquiq *.pyc
