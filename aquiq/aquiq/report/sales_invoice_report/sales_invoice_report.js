@@ -5,6 +5,18 @@
 frappe.query_reports["Sales Invoice Report"] = {
 	"filters": [
 		{
+		  fieldname: "get_all_main_item",
+		  label: ("Get All Main Item"),
+		  fieldtype: "Button",
+		  width: 100,
+		  reqd: 0,
+		  onclick: function() {
+                // Your custom code to handle the button click
+                // For example, you can display an alert message
+                frappe.msgprint("Button clicked!");
+            }
+		},
+		{
 		  fieldname: "parent_item_group",
 		  label: ("Item Group"),
 		  fieldtype: "Link",
@@ -20,21 +32,7 @@ frappe.query_reports["Sales Invoice Report"] = {
 			width: 100,
 			reqd: 0,
 		  },		
-		// {
-		//   fieldname: "item_name",
-		//   label: ("Item"),
-		//   fieldtype: "Link",
-		//   options: "Item",
-		//   width: 100,
-		//   reqd: 0
-		// //   "get_query": function() {
-		// // 	return {
-		// // 	  "filters": {
-		// // 		"item_group": ["=", "Waste Fraction"]
-		// // 	  }
-		// // 	};
-		// //   }
-		// },
+		
 	 
 	  ]
 };

@@ -5,7 +5,12 @@ import frappe
 
 def execute(filters=None):
     columns = get_columns()
-    columns = get_columns()
+    
+    if filters and filters.get('get_all_main_item'):
+        # Handle the button click action
+        print("Hello, World!")
+        return columns, []
+
     if filters.get('parent_item_group'):
         data = get_data(filters)
         tree_data = parent(data)
@@ -15,46 +20,50 @@ def execute(filters=None):
     else:
         data = get_data(filters)
         tree_data = build_tree(data)
+
     return columns, tree_data
 
 
+
 def get_data(filters):
+    
     filter_condition_str, filter_values = build_filter_conditions(filters)
     
     SQL1 = f"""
-        SELECT
-            ig1.item_group_name AS sub_item_group,
-            ig2.item_group_name AS parent_item_group,
-            sii.item_name,
-            sii.qty,
-            sii.rate,
-            sii.amount
-        FROM 
-            `tabItem Group` ig1
-        JOIN 
-            `tabItem Group` ig2 
-        ON 
-            ig1.parent_item_group = ig2.item_group_name
-        JOIN   
-            `tabSales Invoice Item` sii 
-        ON 
-            ig1.item_group_name = sii.item_group
-        WHERE 
-            {filter_condition_str}
-        ORDER BY 
-            ig2.item_group_name, ig1.item_group_name, sii.item_name;
-    """
+            SELECT
+                ig1.item_group_name AS sub_item_group,
+                ig2.item_group_name AS parent_item_group,
+                sii.item_name,
+                sii.qty,
+                sii.rate,
+                sii.amount
+            FROM 
+                `tabItem Group` ig1
+            JOIN 
+                `tabItem Group` ig2 
+            ON 
+                ig1.parent_item_group = ig2.item_group_name
+            JOIN   
+                `tabSales Invoice Item` sii 
+            ON 
+                ig1.item_group_name = sii.item_group
+            WHERE 
+                {filter_condition_str}
+            ORDER BY 
+                ig2.item_group_name, ig1.item_group_name, sii.item_name;
+        """
 
     data = frappe.db.sql(SQL1, filter_values, as_dict=True)
+    
     return data
 
 def build_filter_conditions(filters):
+    
     filter_conditions = []
     filter_values = {}
 
-    if filters.get('item_name'):
-        filter_conditions.append("sii.item_name = %(item_name)s")
-        filter_values['item_name'] = filters['item_name']
+    if filters.get('get_all_main_item'):
+        filter_values['get_all_main_item'] = filters['get_all_main_item']
     if filters.get('parent_item_group'):
         filter_conditions.append("ig2.item_group_name = %(parent_item_group)s")
         filter_values['parent_item_group'] = filters['parent_item_group']
@@ -71,6 +80,7 @@ def build_filter_conditions(filters):
 
 
 def build_tree(data):
+    
     tree_data = []
     current_parent = None
     current_sub = None
@@ -121,6 +131,7 @@ def build_tree(data):
 
 
 def parent(data):
+    
     tree_data = []
     current_parent = None
     current_sub = None
