@@ -35,5 +35,8 @@ frappe.ui.form.on('Posted Dated Cheques', {
 			}
 		});
 		
+	},
+	validate:function(frm){
+		frm.set_value("pdc_status","Pending");
 	}
 });

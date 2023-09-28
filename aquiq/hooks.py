@@ -215,3 +215,9 @@ app_license = "MIT"
 # auth_hooks = [
 #	"aquiq.auth.validate"
 # ]
+fixtures = [
+    "Client Script",
+    "Custom Field",
+    "Print Format",
+    "Property Setter"
+]
